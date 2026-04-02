@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
-
+import Image from "next/image"
 const menuItems = [
   { label: 'Acasă', href: '/' },
-  { label: 'Specialități', href: '/specialitati' },
+
   {
     label: 'Proces de Studii',
     href: '/proces-studii',
@@ -13,7 +13,7 @@ const menuItems = [
       { label: 'Departamente', href: '/proces-studii/departamente' },
       { label: 'Orar', href: '/proces-studii/orar' },
       { label: 'Examene', href: '/proces-studii/examene' },
-      { label: 'Practică', href: '/proces-studii/practica' },
+      { label: 'Catedre', href: '/proces-studii/catedra' },
     ],
   },
   { label: 'Admitere', href: '/admitere' },
@@ -102,15 +102,17 @@ export default function Navbar() {
     <nav className="bg-utm-blue shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow">
-              <span className="text-utm-blue font-black text-sm font-display">UTM</span>
-            </div>
-            <div className="hidden sm:block">
-              <span className="font-black text-white text-lg font-display leading-none">Colegiul UTM</span>
-              <p className="text-blue-200 text-xs leading-none mt-0.5">Universitatea Tehnică a Moldovei</p>
-            </div>
-          </Link>
+          <div className="flex items-center justify-between h-16">
+            <Link href="/" className="flex items-center">
+              <Image
+                  src="/images/Logo-Colegiu.png"
+                  alt="Logo UTM"
+                  width={90}
+                  height={30}
+                  className="object-contain"
+              />
+            </Link>
+          </div>
 
           <div className="hidden md:flex items-center gap-0.5">
             {menuItems.map((item) => (

@@ -3,57 +3,88 @@ import Link from "next/link"
 export default function Page() {
     return (
         <div className="min-h-screen">
+
             {/* Header */}
             <div className="bg-utm-blue text-white py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4">
                     <p className="text-blue-200 text-sm mb-2">
-                        <Link href="/" className="hover:text-white">Acasă</Link> /{" "}
-                        <Link href="/proces-studii" className="hover:text-white">Proces de Studii</Link> / Catedre
+                        <Link href="/">Acasă</Link> /{" "}
+                        <Link href="/proces-studii">Proces de Studii</Link> / Catedre
                     </p>
-                    <h1 className="text-4xl font-black font-display">Catedre</h1>
+                    <h1 className="text-4xl font-black text-center">Catedre</h1>
                 </div>
             </div>
 
-            {/* Blocuri */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-20">
+            {/* CONTENT */}
+            <div className="max-w-7xl mx-auto px-4 py-16 space-y-20">
 
-                {/* Bloc 1 */}
+                {/* ROW 1 */}
                 <div className="grid md:grid-cols-2 gap-10 items-center">
-                    <div>
-                        <h2 className="text-2xl font-bold mb-4">Titlu Bloc 1</h2>
-                        <p className="text-slate-600">
-                            Aici pui textul tău. Descriere despre practică, experiență, sau orice vrei.
-                        </p>
-                    </div>
-                    <div>
+
+                    {/* STÂNGA */}
+                    <div className="relative">
                         <img
-                            src="/img1.jpg"
-                            alt="Imagine 1"
-                            className="rounded-2xl shadow-lg w-full object-cover"
+                            src="/images/catedra poza 1.png"
+                            className="w-full opacity-30"
                         />
+                        <h2 className="absolute inset-0 flex items-center justify-center text-3xl font-bold text-utm-blue text-center px-10">
+                            Catedra <br /> Discipline de cultură generală
+                        </h2>
+                    </div>
+
+                    {/* DREAPTA */}
+                    <div className="text-center">
+                        <img
+                            src="/images/catedra 1.png"
+                            className="w-48 h-48 mx-auto rounded-full object-cover shadow-xl border-4 border-white"
+                        />
+                        <h3 className="mt-6 text-xl font-bold text-utm-blue">
+                            Rodica Bîlici
+                        </h3>
+                        <p className="text-slate-600">
+                            șefa catedrei discipline de cultură generală
+                        </p>
+                        <p className="text-utm-blue font-semibold">
+                            rodica.bilici@colegiu.utm.md
+                        </p>
                     </div>
                 </div>
 
-                {/* Bloc 2 */}
+
                 <div className="grid md:grid-cols-2 gap-10 items-center">
-                    <div className="order-2 md:order-1">
+
+                    {/* STÂNGA */}
+                    <div className="relative">
                         <img
-                            src="/img2.jpg"
-                            alt="Imagine 2"
-                            className="rounded-2xl shadow-lg w-full object-cover"
+                            src="/images/catedra poza 2.png"
+                            className="w-full opacity-30"
                         />
+                        <h2 className="absolute inset-0 flex items-center justify-center text-3xl font-bold text-utm-blue text-center px-10">
+                            Catedra <br /> Discipline tehnice
+                        </h2>
                     </div>
-                    <div className="order-1 md:order-2">
-                        <h2 className="text-2xl font-bold mb-4">Titlu Bloc 2</h2>
+
+                    {/* DREAPTA */}
+                    <div className="text-center">
+                        <img
+                            src="/images/catedra 2.png"
+                            className="w-48 h-48 mx-auto rounded-full object-cover shadow-xl border-4 border-white"
+                        />
+                        <h3 className="mt-6 text-xl font-bold text-utm-blue">
+                            Nicolae Trifan
+                        </h3>
                         <p className="text-slate-600">
-                            Al doilea bloc cu alt text. Poți explica procesul sau exemple concrete.
+                            șeful catedrei discipline tehnice
+                        </p>
+                        <p className="text-utm-blue font-semibold">
+                            nicolae.trifan@bpm.utm.md
                         </p>
                     </div>
                 </div>
 
             </div>
 
-            {/* Footer mic */}
+            {/* Footer */}
             <div className="text-center pb-10">
                 <Link href="/" className="text-utm-blue font-semibold hover:underline">
                     ← Înapoi acasă

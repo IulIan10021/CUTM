@@ -2,29 +2,14 @@
 import Link from 'next/link'
 import { useState } from 'react'
 
-const pasi = [
-  {
-    nr: 1,
-    icon: '📝',
-    titlu: 'Completează formularul',
-    desc: 'Înregistrează-te pe platforma UTM și completează cererea de admitere online.',
-    culoare: 'bg-blue-50 border-blue-200',
-  },
-  {
-    nr: 2,
-    icon: '📂',
-    titlu: 'Trimite actele',
-    desc: 'Scanează și încarcă documentele necesare: buletin, diploma, fotografii.',
-    culoare: 'bg-indigo-50 border-indigo-200',
-  },
-  {
-    nr: 3,
-    icon: '✅',
-    titlu: 'Confirmă înscrierea',
-    desc: 'Primești confirmarea prin email și ești programat pentru interviu.',
-    culoare: 'bg-green-50 border-green-200',
-  },
-]
+
+function getAnulAcademic() {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = now.getMonth() + 1
+  const startYear = month >= 9 ? year : year - 1
+  return `${startYear}–${startYear + 1}`
+}
 
 const acte = [
   'Buletin de identitate (copie)',
@@ -62,6 +47,50 @@ const specialitatiCalc = [
   { label: 'Calculatoare',                                 disciplina4: 'Informatica / Fizica' },
 ]
 
+const documente = [
+  {
+    titlu: 'Regulament cu privire la organizarea și desfășurarea concursului de admitere la programele de formare profesională tehnică',
+    icon: '📜',
+    href: '/oral/oral-anul-1 .pdf',
+  },
+  {
+    titlu: 'Planul de înmatriculare pentru anul de studii 2025–2026',
+    icon: '📊',
+    href: '/oral/oral-anul-1 .pdf',
+  },
+  {
+    titlu: 'Taxe de studii pentru anul de studii 2025–2026',
+    icon: '💳',
+    href: '/oral/oral-anul-1 .pdf',
+  },
+  {
+    titlu: 'Aviz pentru achitarea taxei de studii la Colegiul Universității Tehnice a Moldovei',
+    icon: '🏦',
+    href: '/oral/oral-anul-1 .pdf',
+  },
+]
+
+const tururi = {
+  1: {
+    titlu: 'Turul 1 de admitere',
+    perioada: '21 iulie – 08 august 2025',
+    afisare: '11 – 12 august 2025',
+    descriere: 'Prima etapă a concursului de admitere. Candidații depun dosarul complet în perioada indicată și sunt repartizați în ordine descrescătoare a mediei de concurs.',
+    pdfUrl: '/oral/oral-anul-1 .pdf',
+    pdfTitlu: 'Ordinul de admitere — Turul 1 (2025)',
+    bgHero: 'from-utm-blue-dark to-utm-blue',
+  },
+  2: {
+    titlu: 'Turul 2 de admitere',
+    perioada: '14 – 22 august 2025',
+    afisare: '25 – 26 august 2025',
+    descriere: 'A doua etapă de admitere pentru locurile rămase neocupate după Turul 1. Candidații care nu au fost înmatriculați în primul tur pot participa la concursul suplimentar.',
+    pdfUrl: '/oral/oral-anul-1 .pdf',
+    pdfTitlu: 'Ordinul de admitere — Turul 2 (2025)',
+    bgHero: 'from-indigo-900 to-indigo-700',
+  },
+}
+
 function FAQ() {
   const [open, setOpen] = useState(null)
   return (
@@ -73,7 +102,7 @@ function FAQ() {
                   className="w-full flex items-center justify-between px-5 py-4 text-left font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
               >
                 {item.q}
-                <svg className={`w-5 h-5 text-utm-blue transition-transform ${open === i ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className={`w-5 h-5 text-utm-blue transition-transform flex-shrink-0 ml-3 ${open === i ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -117,7 +146,7 @@ function CalculatorAdmitere() {
     if (nota >= 9)   return { text: 'Excelent — șanse mari la loc bugetat', bg: 'bg-green-100', color: 'text-green-700' }
     if (nota >= 7.5) return { text: 'Bine — eligibil pentru admitere',       bg: 'bg-blue-100',  color: 'text-blue-700'  }
     if (nota >= 6)   return { text: 'Suficient — loc cu taxă probabil',       bg: 'bg-amber-100', color: 'text-amber-700' }
-    return               { text: 'Sub limita minimă de admitere (6.00)',      bg: 'bg-red-100',   color: 'text-red-600'   }
+    return                  { text: 'Sub limita minimă de admitere (6.00)',    bg: 'bg-red-100',   color: 'text-red-600'   }
   }
 
   return (
@@ -129,7 +158,6 @@ function CalculatorAdmitere() {
         </h2>
         <p className="text-center text-slate-400 text-sm mb-8">Formula oficială Colegiul UTM — după clasa a 9-a</p>
 
-        {/* Specialitate */}
         <div className="mb-7">
           <label className="block text-utm-blue-light font-semibold text-sm mb-2">Alegeți specialitatea:</label>
           <select
@@ -141,17 +169,14 @@ function CalculatorAdmitere() {
           </select>
         </div>
 
-        {/* MNDP */}
         <div className="mb-7">
-          <h3 className="font-bold font-display text-slate-800 mb-1">
-            Notele medii anuale la 4 disciplini de profil (MNDP):
-          </h3>
+          <h3 className="font-bold font-display text-slate-800 mb-1">Notele medii anuale la 4 disciplini de profil (MNDP):</h3>
           <p className="text-xs text-slate-400 mb-4">Media aritmetică a mediilor anuale la cele 4 discipline</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { id: 'limba',      label: 'Limba de instruire (ro/ru):' },
-              { id: 'matematica', label: 'Matematica:'                 },
-              { id: 'straina',    label: 'Limba străină I (en/fr):'    },
+              { id: 'matematica', label: 'Matematica:' },
+              { id: 'straina',    label: 'Limba străină I (en/fr):' },
               { id: 'profil',     label: specialitatiCalc[specialitate].disciplina4 + ':' },
             ].map(({ id, label }) => (
                 <div key={id}>
@@ -167,12 +192,9 @@ function CalculatorAdmitere() {
           </div>
         </div>
 
-        {/* MNEA + Buton */}
         <div className="flex flex-col sm:flex-row sm:items-end gap-6 mb-4">
           <div className="flex-1">
-            <h3 className="font-bold font-display text-slate-800 mb-1">
-              Media notelor la examenele de absolvire (MNEA):
-            </h3>
+            <h3 className="font-bold font-display text-slate-800 mb-1">Media notelor la examenele de absolvire (MNEA):</h3>
             <p className="text-xs text-slate-400 mb-4">Media notelor obținute la examenele de absolvire cl. 9</p>
             <div className="max-w-xs">
               <label className="block text-utm-blue-light text-xs font-semibold mb-1.5">Media examenelor:</label>
@@ -194,7 +216,6 @@ function CalculatorAdmitere() {
 
         {eroare && <p className="text-red-500 text-sm mb-3">{eroare}</p>}
 
-        {/* Rezultat */}
         {rezultat && (() => {
           const banda = getBanda(rezultat.MC)
           return (
@@ -228,17 +249,114 @@ function CalculatorAdmitere() {
   )
 }
 
-export default function AdmiterePage() {
-  const [form, setForm] = useState({ nume: '', telefon: '', email: '', specialitate: '' })
-  const [trimis, setTrimis] = useState(false)
+function TurView({ nr, onBack }) {
+  const tur = tururi[nr]
+  const altNr = nr === 1 ? 2 : 1
 
   return (
       <div className="min-h-screen bg-slate-50">
-        {/* HERO Banner */}
+        <div className={`bg-gradient-to-r ${tur.bgHero} text-white py-14`}>
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button
+                onClick={onBack}
+                className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-semibold mb-6 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Înapoi la Admitere
+            </button>
+            <div className="flex items-center gap-4 mb-3">
+              <div className="w-12 h-12 bg-white/20 text-white font-black text-2xl rounded-full flex items-center justify-center font-display">
+                {nr}
+              </div>
+              <span className="text-white/70 text-sm font-semibold uppercase tracking-wider">
+              Admitere {getAnulAcademic()}
+            </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-black font-display mb-4">{tur.titlu}</h1>
+            <p className="text-white/80 text-lg max-w-2xl">{tur.descriere}</p>
+          </div>
+        </div>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+          <div className="grid sm:grid-cols-2 gap-5">
+            <div className="bg-white rounded-2xl border border-slate-200 p-6">
+              <p className="text-xs text-slate-400 font-semibold uppercase tracking-wide mb-2">Perioada de depunere</p>
+              <p className="text-2xl font-black font-display text-utm-blue">{tur.perioada}</p>
+            </div>
+            <div className="bg-white rounded-2xl border border-slate-200 p-6">
+              <p className="text-xs text-slate-400 font-semibold uppercase tracking-wide mb-2">Afișarea rezultatelor</p>
+              <p className="text-2xl font-black font-display text-slate-800">{tur.afisare}</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+              <div>
+                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wide mb-0.5">Document oficial</p>
+                <h2 className="font-bold text-slate-800 text-base">{tur.pdfTitlu}</h2>
+              </div>
+              <a
+              href={tur.pdfUrl}
+              download
+              className="flex items-center gap-2 bg-utm-blue text-white font-bold text-sm px-4 py-2.5 rounded-xl hover:bg-utm-blue-dark transition-colors flex-shrink-0"
+              >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              </svg>
+              Descarcă PDF
+            </a>
+          </div>
+          <div style={{ height: '75vh', minHeight: '500px' }}>
+            <iframe
+                src={`${tur.pdfUrl}#toolbar=1&navpanes=0&view=FitH`}
+                title={tur.pdfTitlu}
+                width="100%"
+                height="100%"
+                style={{ border: 0, display: 'block' }}
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4">
+          <button
+              onClick={onBack}
+              className="flex-1 bg-utm-blue text-white rounded-2xl p-5 flex items-center justify-center gap-2 font-bold hover:bg-utm-blue-dark transition-colors"
+          >
+            Înapoi la pagina de admitere
+          </button>
+          <button
+              onClick={() => {}}
+              className="flex-1 bg-white border border-slate-200 rounded-2xl p-5 flex items-center justify-between gap-4 hover:border-utm-blue/40 hover:shadow-md transition-all group"
+          >
+            <div className="text-left">
+              <p className="text-xs text-slate-400 font-semibold">Celălalt tur</p>
+              <p className="font-bold text-slate-800 group-hover:text-utm-blue transition-colors">
+                Turul {altNr} de admitere
+              </p>
+            </div>
+            <svg className="w-5 h-5 text-slate-400 group-hover:text-utm-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+</div>
+)
+}
+
+function AdmitereMain({ onTur }) {
+  const anAcademic = getAnulAcademic()
+
+  return (
+      <div className="min-h-screen bg-slate-50">
+
+        {/* HERO */}
         <div className="bg-gradient-to-r from-utm-blue-dark to-utm-blue text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="inline-block bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
-            Admitere 2025–2026
+            Admitere {anAcademic}
           </span>
             <h1 className="text-4xl md:text-5xl font-black font-display mb-4">
               Începe-ți cariera la Colegiul UTM
@@ -249,35 +367,15 @@ export default function AdmiterePage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-10">
 
-          {/* Pași */}
-          <div className="mb-16">
-            <h2 className="section-title text-center mb-10">Cum funcționează admiterea?</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {pasi.map((pas) => (
-                  <div key={pas.nr} className={`rounded-2xl border-2 p-7 ${pas.culoare} relative`}>
-                    <div className="w-10 h-10 bg-utm-blue text-white font-black text-lg rounded-full flex items-center justify-center mb-4 font-display">
-                      {pas.nr}
-                    </div>
-                    <div className="text-3xl mb-3">{pas.icon}</div>
-                    <h3 className="font-bold text-lg text-slate-800 mb-2 font-display">{pas.titlu}</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">{pas.desc}</p>
-                  </div>
-              ))}
-            </div>
-          </div>
+          {/* Rând 1: Acte necesare + Card tururi combinate */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-          {/* Calculator */}
-          <div className="mb-16">
-            <CalculatorAdmitere />
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-10 mb-16">
             {/* Acte necesare */}
-            <div className="bg-white rounded-2xl shadow-md p-8">
-              <h2 className="section-title mb-6 text-2xl">📋 Acte necesare</h2>
-              <ul className="space-y-3">
+            <div className="bg-white rounded-2xl border border-slate-200 p-7 flex flex-col gap-4 h-full">
+              <h2 className="text-xl font-black font-display text-slate-800">📋 Acte necesare</h2>
+              <ul className="space-y-2.5 flex-1">
                 {acte.map((act, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <div className="w-5 h-5 rounded-full bg-utm-blue flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -289,108 +387,198 @@ export default function AdmiterePage() {
                     </li>
                 ))}
               </ul>
-              <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                <p className="text-amber-800 text-sm font-medium">
-                  ⚠️ Dosarul complet se depune personal la secretariatul colegiului sau prin e-mail la adresa indicată pe pagina de contact.
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl">
+                <p className="text-amber-800 text-xs font-medium">
+                  ⚠️ Dosarul complet se depune personal la secretariat sau prin e-mail.
                 </p>
               </div>
             </div>
 
-            {/* Formular */}
-            <div className="bg-white rounded-2xl shadow-md p-8">
-              <h2 className="section-title mb-6 text-2xl">🚀 Aplică online</h2>
-              {trimis ? (
-                  <div className="text-center py-10">
-                    <div className="text-6xl mb-4">🎉</div>
-                    <h3 className="text-xl font-bold text-utm-blue mb-2 font-display">Cererea a fost trimisă!</h3>
-                    <p className="text-slate-500 text-sm">Te vom contacta în cel mai scurt timp. Verifică și căsuța de spam.</p>
-                    <button onClick={() => setTrimis(false)} className="mt-6 text-utm-blue-light text-sm font-semibold hover:underline">
-                      Trimite altă cerere
-                    </button>
-                  </div>
-              ) : (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1.5">Nume și Prenume *</label>
-                      <input
-                          type="text" placeholder="Numele tău complet"
-                          value={form.nume}
-                          onChange={(e) => setForm({ ...form, nume: e.target.value })}
-                          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-utm-blue-light focus:border-transparent"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-1.5">Telefon *</label>
-                        <input
-                            type="tel" placeholder="+373 XX XXX XXX"
-                            value={form.telefon}
-                            onChange={(e) => setForm({ ...form, telefon: e.target.value })}
-                            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-utm-blue-light focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-1.5">Email *</label>
-                        <input
-                            type="email" placeholder="email@exemplu.md"
-                            value={form.email}
-                            onChange={(e) => setForm({ ...form, email: e.target.value })}
-                            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-utm-blue-light focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-1.5">Specialitatea dorită *</label>
-                      <select
-                          value={form.specialitate}
-                          onChange={(e) => setForm({ ...form, specialitate: e.target.value })}
-                          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-utm-blue-light focus:border-transparent bg-white"
+            {/* Card combinat tururi */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-7 flex flex-col gap-5 h-full">
+              <h2 className="text-xl font-black font-display text-slate-800">🗓️ Tururi de admitere</h2>
+              <div className="flex flex-col gap-4 flex-1">
+                {[1, 2].map((nr) => {
+                  const tur = tururi[nr]
+                  return (
+                      <button
+                          key={nr}
+                          onClick={() => window.open(tur.pdfUrl, '_blank')}
+                          className="flex-1 bg-slate-50 rounded-xl border border-slate-200 p-5 flex flex-col gap-3 hover:border-utm-blue/50 hover:shadow-sm transition-all group text-left"
                       >
-                        <option value="">Alege specialitatea</option>
-                        <option value="programare">Programare și testarea produselor de program</option>
-                        <option value="retele">Administrarea rețelelor de calculatoare</option>
-                        <option value="design">Design și Multimedia</option>
-                        <option value="web">Administrarea Aplicațiilor Web</option>
-                        <option value="calculatoare">Calculatoare</option>
-                      </select>
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 bg-utm-blue text-white font-black text-base rounded-full flex items-center justify-center font-display flex-shrink-0">
+                            {nr}
+                          </div>
+                          <h3 className="font-bold text-slate-800 font-display text-base group-hover:text-utm-blue transition-colors">
+                            {tur.titlu}
+                          </h3>
+                        </div>
+                        <div className="space-y-1.5 pl-12">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wide w-20 flex-shrink-0">Depunere:</span>
+                            <span className="text-utm-blue font-bold text-sm">{tur.perioada}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wide w-20 flex-shrink-0">Afișare:</span>
+                            <span className="text-slate-700 text-sm">{tur.afisare}</span>
+                          </div>
+                        </div>
+                        <div className="pl-12 flex items-center gap-2 text-utm-blue text-xs font-semibold group-hover:gap-3 transition-all">
+                          <span>Vezi detalii și documente</span>
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </button>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Contact + Hartă */}
+          <div>
+            <h2 className="section-title mb-6">📞 Contact și program</h2>
+            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+              <div className="grid md:grid-cols-2">
+                {/* Stânga */}
+                <div className="p-8 flex flex-col gap-5 border-b md:border-b-0 md:border-r border-slate-200">
+                  <div>
+                    <p className="text-slate-500 text-sm font-semibold mb-2">Telefoane de contact ale Comisiei de Admitere:</p>
+                    <div className="flex flex-wrap gap-3 items-center">
+                      <a href="tel:078898503" className="text-utm-blue font-black text-2xl font-display underline hover:text-utm-blue-dark transition-colors">
+                        078898503
+                      </a>
+                      <span className="text-slate-400 font-bold">și</span>
+                      <a href="tel:078898504" className="text-utm-blue font-black text-2xl font-display underline hover:text-utm-blue-dark transition-colors">
+                        078898504
+                      </a>
                     </div>
-                    <button
-                        onClick={() => { if (form.nume && form.telefon && form.specialitate) setTrimis(true) }}
-                        className="btn-primary w-full justify-center text-base py-3.5 rounded-xl mt-2"
-                    >
-                      Trimite cererea →
-                    </button>
-                    <p className="text-xs text-slate-400 text-center">
-                      Prin trimiterea cererii ești de acord cu prelucrarea datelor personale conform RGPD.
+                  </div>
+                  <div className="border-t border-slate-100 pt-4">
+                    <p className="text-slate-800 font-bold text-base">
+                      Taxa pentru depunerea actelor = <span className="text-utm-blue">100 lei</span>
                     </p>
                   </div>
-              )}
+                  <div className="border-t border-slate-100 pt-4">
+                    <p className="text-slate-600 text-sm">
+                      <span className="font-semibold">Program de lucru:</span>{' '}
+                      Luni–Vineri, de la ora <span className="font-bold text-slate-800">08:00</span> până la <span className="font-bold text-slate-800">17:00</span>
+                    </p>
+                  </div>
+                  <div className="border-t border-slate-100 pt-4 space-y-3">
+                    <div>
+                      <p className="text-utm-blue font-black text-sm">
+                        TURUL 1: <span className="text-slate-800 font-bold">21.07.2025 – 08.08.2025</span>
+                      </p>
+                      <p className="text-slate-500 text-sm mt-0.5">Afișarea rezultatelor pentru turul 1: 11 – 12.08.2025</p>
+                    </div>
+                    <div>
+                      <p className="text-utm-blue font-black text-sm">
+                        TURUL 2: <span className="text-slate-800 font-bold">14 – 22.08.2025</span>
+                      </p>
+                      <p className="text-slate-500 text-sm mt-0.5">Afișarea rezultatelor pentru turul 2: 25 – 26.08.2025</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dreapta: hartă */}
+                <div className="flex flex-col">
+                  <div className="flex-1" style={{ minHeight: '300px' }}>
+                    <iframe
+                        title="Adresa Comisia de Admitere"
+                        src="https://www.google.com/maps?q=Blocul%205%20Strada%20Studentilor%209/9%20Chisinau&output=embed"
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0, display: 'block' }}
+                        loading="lazy"
+                    />
+                  </div>
+
+                  <a
+                      href="https://maps.app.goo.gl/Bs8fc6gn9Y9FHAe2A"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-center py-3 px-4 bg-slate-50 border-t border-slate-200 text-utm-blue font-bold text-sm hover:bg-blue-50 transition-colors"
+                  >
+                    📍 Deschide în Google Maps →
+                  </a>
+                </div>
             </div>
           </div>
-
-          {/* FAQ */}
-          <div className="mb-16">
-            <h2 className="section-title text-center mb-8">Întrebări frecvente</h2>
-            <div className="max-w-3xl mx-auto">
-              <FAQ />
-            </div>
-          </div>
-
-          {/* CTA Footer */}
-          <div className="bg-utm-blue rounded-2xl p-10 text-center text-white">
-            <h3 className="text-2xl font-black font-display mb-3">Ai nevoie de ajutor?</h3>
-            <p className="text-blue-200 mb-6">Secretariatul nostru îți răspunde la orice întrebare</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/contact" className="bg-white text-utm-blue font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors">
-                Contactează-ne
-              </Link>
-              <a href="tel:+37322000000" className="border-2 border-white text-white font-bold px-6 py-3 rounded-xl hover:bg-white/10 transition-colors">
-                Sună acum
-              </a>
-            </div>
-          </div>
-
         </div>
-      </div>
-  )
+
+        {/* Calculator */}
+        <CalculatorAdmitere />
+
+        {/* Documente */}
+        <div>
+          <h2 className="section-title mb-6">📁 Documente și regulamente</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {documente.map((doc, i) => (
+             <a
+                key={i}
+              href={doc.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white rounded-2xl border border-slate-200 p-6 flex items-start gap-4 hover:border-utm-blue/40 hover:shadow-md transition-all group"
+              >
+              <div className="text-3xl flex-shrink-0">{doc.icon}</div>
+              <div className="flex-1 min-w-0">
+              <p className="text-slate-800 text-sm font-semibold leading-snug group-hover:text-utm-blue transition-colors">
+            {doc.titlu}
+          </p>
+          <span className="inline-flex items-center gap-1 mt-2 text-utm-blue text-xs font-bold">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                    </svg>
+                    Descarcă PDF
+                  </span>
+        </div>
+      </a>
+))}
+</div>
+</div>
+
+  {/* FAQ */}
+  <div>
+    <h2 className="section-title text-center mb-8">Întrebări frecvente</h2>
+    <div className="max-w-3xl mx-auto">
+      <FAQ />
+    </div>
+  </div>
+
+  {/* CTA Footer */}
+  <div className="bg-utm-blue rounded-2xl p-10 text-center text-white">
+    <h3 className="text-2xl font-black font-display mb-3">Ai nevoie de ajutor?</h3>
+    <p className="text-blue-200 mb-6">Secretariatul nostru îți răspunde la orice întrebare</p>
+    <div className="flex flex-wrap justify-center gap-4">
+      <Link href="/contact" className="bg-white text-utm-blue font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors">
+        Contactează-ne
+      </Link>
+      <a href="tel:078898503" className="border-2 border-white text-white font-bold px-6 py-3 rounded-xl hover:bg-white/10 transition-colors">
+        Sună acum
+      </a>
+    </div>
+  </div>
+
+</div>
+</div>
+)
+}
+
+export default function AdmiterePage() {
+  const [turActiv, setTurActiv] = useState(null)
+
+  if (turActiv) {
+    return (
+        <TurView
+            nr={turActiv}
+            onBack={() => setTurActiv(null)}
+        />
+    )
+  }
+
+  return <AdmitereMain onTur={(nr) => setTurActiv(nr)} />
 }

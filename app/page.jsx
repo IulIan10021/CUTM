@@ -1,36 +1,105 @@
 'use client'
+
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 
 const specialitati = [
   {
-    icon: '💻',
-    title: 'Programare și Analiză Software',
-    desc: '7 semestre de formare teoretică și practică completă în domeniul dezvoltării software.',
-    href: '/specialitati/programare',
+    image: '/images/PAPP.png',
+    title: 'Programare și testarea\nproduselor de program',
+    desc: 'Dezvoltare software',
+    href: '/specialitati/papp'
   },
   {
-    icon: '🔐',
-    title: 'Administrare Rețele și Securitate',
-    desc: 'Formarea specialiștilor în administrarea rețelelor și securitatea informațională.',
-    href: '/specialitati/retele',
+    image: '/images/AAW.png',
+    title: 'Dezvoltarea aplicațiilor web',
+    desc: 'Aplicații web',
+    href: '/specialitati/aaw'
   },
   {
-    icon: '🎨',
-    title: 'Design și Multimedia',
-    desc: '7 semestre de formare practică în design grafic, web și producție multimedia.',
-    href: '/specialitati/design',
+    image: '/images/RC.png',
+    title: 'Rețele de calculatoare',
+    desc: 'Administrare rețele',
+    href: '/specialitati/rc'
   },
+  {
+    image: '/images/C.png',
+    title: 'Calculatoare',
+    desc: 'Sisteme hardware',
+    href: '/specialitati/c'
+  },
+  {
+    image: '/images/TRT.png',
+    title: 'Tehnologii și rețele de telecomunicații',
+    desc: 'Comunicații date',
+    href: '/specialitati/trt'
+  },
+  {
+    image: '/images/DTTA.png',
+    title: 'Diagnosticarea tehnică a transportului auto',
+    desc: 'Diagnoză auto',
+    href: '/specialitati/DTTA'
+  },
+  {
+    image: '/images/TA.png',
+    title: 'Trafic auto',
+    desc: 'Gestionare trafic',
+    href: '/specialitati/TA'
+  },
+  {
+    image: '/images/TAP.png',
+    title: 'Tehnologia alimentației publice',
+    desc: 'Gastronomie',
+    href: '/specialitati/TAP'
+  },
+  {
+    image: '/images/MASP.png',
+    title: 'Mașini și sisteme de producere',
+    desc: 'Sisteme industriale',
+    href: '/specialitati/MASP',
+  },
+  {
+    image: '/images/UTIA.png',
+    title: 'Utilaj tehnologic industrial și accesorii',
+    desc: 'Utilaj industrial',
+    href: '/specialitati/UTIA'
+  },
+  {
+    image: '/images/TPM.png',
+    title: 'Tehnologia prelucrării materialelor',
+    desc: 'Prelucrare materiale',
+    href: '/specialitati/TPM'
+  },
+  {
+    image: '/images/TPM.png',
+    title: 'Tehnologia Prelucrarii Materialelor - DUAL',
+    desc: 'Practică în industrie',
+    href: '/specialitati/tpmdual',
+  },
+  {
+    image: '/images/DTTA.png',
+    title: 'Diagnosticarea tehnică a transportului auto - DUAL',
+    desc: 'Diagnostica auto',
+    href: '/specialitati/dta-dual'
+  },
+  {
+    image: '/images/TAP.png',
+    title: 'Tehnologia alimentației publice-DUAL',
+    desc: 'Bucătărie profesională',
+    href: '/specialitati/TAPDUAL'
+  }
 ]
 
 const sponsori = [
-  { name: 'Pentalog', img: '/images/parteneri/pentalog.png' },
-  { name: 'Endava', img: '/images/parteneri/endava.png' },
-  { name: 'Orange Moldova', img: '/images/parteneri/orange.png' },
-  { name: 'Moldcell', img: '/images/parteneri/moldcell.png' },
-  { name: 'USAID', img: '/images/parteneri/usaid.png' },
+  { name: 'StarNet ', logo: '/images/starnet .png' },
+  { name: 'Endava', logo: '/images/Endava.png' },
+  { name: 'Orange Moldova', logo: '/images/orange.png' },
+  { name: 'Moldcell', logo: '/images/molcell.png' },
+  { name: 'USAID', logo: '/images/usaid.png' },
 ]
 
+// SPONSORI
 function SponsorCarousel() {
   const [current, setCurrent] = useState(0)
   const total = sponsori.length
@@ -43,138 +112,208 @@ function SponsorCarousel() {
   }, [total])
 
   const visible = [
-    sponsori[(current) % total],
+    sponsori[current % total],
     sponsori[(current + 1) % total],
     sponsori[(current + 2) % total],
   ]
 
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-center text-2xl font-bold font-display text-utm-blue mb-2">Partenerii Noștri</h2>
-        <p className="text-center text-slate-400 text-sm mb-10">Companii care susțin educația noastră</p>
+      <section className="py-16 bg-white overflow-hidden">
+        <div className="max-w-[1400px] mx-auto text-center px-4">
+          <h2 className="text-2xl font-bold mb-6">Partenerii Noștri</h2>
 
-        {/* Carousel */}
-        <div className="relative overflow-hidden">
-          <div className="flex justify-center items-center gap-6 md:gap-10 transition-all duration-500">
-            {visible.map((sponsor, i) => (
-              <div
-                key={`${sponsor.name}-${i}`}
-                className={`flex flex-col items-center gap-3 transition-all duration-500 ${i === 1 ? 'scale-110 opacity-100' : 'scale-95 opacity-60'}`}
-              >
-                <div className="w-36 h-20 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-200 shadow-sm px-4">
-                  {/* Replace div below with <Image> when logos are added */}
-                  <span className="text-slate-500 font-bold text-sm text-center">{sponsor.name}</span>
-                  {/*
-                  <Image src={sponsor.img} alt={sponsor.name} width={120} height={60} className="object-contain" />
-                  */}
+          <div className="flex justify-center gap-6">
+            {visible.map((s, i) => (
+                <div key={i} className={i === 1 ? 'scale-110' : 'opacity-60'}>
+
+                  <div className="w-36 h-20 bg-white flex items-center justify-center rounded-xl p-3 shadow">
+
+                    <Image
+                        src={s.logo}
+                        alt={s.name}
+                        width={120}
+                        height={50}
+                        className="object-contain"
+                    />
+
+                  </div>
+
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Dots */}
-          <div className="flex justify-center gap-2 mt-8">
-            {sponsori.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${i === current ? 'bg-utm-blue w-5' : 'bg-slate-300'}`}
-              />
             ))}
           </div>
         </div>
-      </div>
-    </section>
-  )
-}
+      </section>
+  )}
 
+// 🔹 HOMEPAGE
 export default function HomePage() {
+  const scrollRef = useRef(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const scroll = (dir) => {
+    const container = scrollRef.current
+    if (!container) return
+
+    const children = container.children
+    if (!children.length) return
+
+    let newIndex = currentIndex + (dir === 'right' ? 1 : -1)
+
+    if (newIndex < 0) newIndex = 0
+    if (newIndex >= children.length) newIndex = children.length - 1
+
+    setCurrentIndex(newIndex)
+
+    const target = children[newIndex]
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest',
+      })
+    }
+  }
+
+
+
   return (
-    <>
-      {/* HERO */}
-      <section className="bg-gradient-to-br from-utm-blue-dark via-utm-blue to-utm-blue-light text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 right-10 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-300 rounded-full blur-3xl" />
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="overflow-x-hidden">
+
+        {/* HERO */}
+        <section className="text-white py-20 bg-blue-700">
+          <div className="grid md:grid-cols-2 gap-10 max-w-[1400px] mx-auto px-4">
             <div>
-              <h1 className="text-5xl md:text-6xl font-black font-display leading-tight mb-4">
-                Devino specialist IT
+              <h1 className="text-5xl font-bold mb-4">
+                Bun venit la Colegiul UTM
               </h1>
-              <p className="text-xl text-blue-100 mb-8 font-medium">
-                Studii moderne + practică reală
+
+              <p className="text-lg mb-4 text-blue-100">
+                Devino specialist IT într-un mediu modern, orientat pe practică și cerințele reale ale industriei.
               </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/specialitati" className="btn-outline">
-                  Vezi specialitățile
-                </Link>
-                <Link href="/admitere" className="bg-white text-utm-blue font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors">
-                  Aplică acum
-                </Link>
-              </div>
-              <div className="flex gap-8 mt-10">
-                <div>
-                  <p className="text-2xl font-bold font-display">6+</p>
-                  <p className="text-blue-200 text-sm">Semestre cursuri</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold font-display">1000+</p>
-                  <p className="text-blue-200 text-sm">Ore de practică</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold font-display">786+</p>
-                  <p className="text-blue-200 text-sm">Studenți activi</p>
-                </div>
-              </div>
+
+              <p className="text-sm text-blue-200">
+                Îți oferim competențe reale, proiecte practice și acces la oportunități în companii IT.
+              </p>
             </div>
 
-            <div className="relative h-80 md:h-96 rounded-2xl overflow-hidden shadow-2xl">
-              <div className="w-full h-full bg-white/10 flex items-center justify-center rounded-2xl border-2 border-dashed border-white/30">
-                <div className="text-center text-white/60 p-4">
-                  <p className="text-4xl mb-2">📸</p>
-                  <p className="font-medium">Hero Image</p>
-                  <p className="text-sm mt-1">Pune în: /public/images/hero/hero-main.jpg</p>
-                </div>
-              </div>
+            <div className="relative h-80 rounded-xl overflow-hidden">
+              <Image
+                  src="/images/Acasa.F.jpg"
+                  alt="Hero"
+                  fill
+                  className="object-cover"
+              />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* SPECIALITĂȚI */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="section-title mb-3">Specialitățile noastre IT</h2>
-            <p className="text-slate-500 max-w-xl mx-auto">
-              Cursuri complete de software, rețele și design grafic cu focus pe practică în industrie.
+        {/* DE CE SĂ ALEGI */}
+        <section className="py-20 bg-gray-50">
+          <div className="max-w-[1400px] mx-auto px-4 text-center">
+
+            <h2 className="text-3xl font-bold mb-4">
+              De ce să alegi Colegiul UTM?
+            </h2>
+
+            <p className="text-gray-500 max-w-xl mx-auto mb-12">
+              Formăm specialiști IT prin educație practică, profesori cu experiență și colaborări directe cu companii din industrie.
             </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {specialitati.map((s) => (
-              <div key={s.title} className="card p-6 group">
-                <div className="text-4xl mb-4">{s.icon}</div>
-                <h3 className="text-xl font-bold font-display text-utm-blue mb-2">{s.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed mb-5">{s.desc}</p>
-                <Link href={s.href} className="inline-flex items-center gap-1 text-utm-blue-light font-semibold text-sm hover:gap-2 transition-all">
-                  Vezi detalii <span>›</span>
-                </Link>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 bg-utm-blue rounded-2xl p-8 text-center">
-            <Link href="/admitere" className="text-white text-xl font-bold font-display hover:underline">
-              Aplică acum și începe cariera în IT →
-            </Link>
-          </div>
-        </div>
-      </section>
 
-      {/* SPONSOR CAROUSEL */}
-      <SponsorCarousel />
-    </>
+            <div className="grid md:grid-cols-3 gap-8">
+
+              <div className="p-6 bg-white rounded-2xl shadow-md border">
+                <div className="text-3xl mb-3">💼</div>
+                <h3 className="font-bold mb-2">Practică reală</h3>
+                <p className="text-sm text-gray-500">
+                  Ai oportunitatea de a lucra la proiecte practice în timpul studiilor.
+                </p>
+              </div>
+
+              <div className="p-6 bg-white rounded-2xl shadow-md border">
+                <div className="text-3xl mb-3">🏢</div>
+                <h3 className="font-bold mb-2">Parteneriate IT</h3>
+                <p className="text-sm text-gray-500">
+                  Parteneriate cu companii de top din IT pentru practică și angajare.
+                </p>
+              </div>
+              <div className="p-6 bg-white rounded-2xl shadow-md border">
+                <div className="text-3xl mb-3">🎓</div>
+                <h3 className="font-bold mb-2">Diplomă recunoscută</h3>
+                <p className="text-sm text-gray-500">
+                  Diploma de colegiu îți oferă acces la continuarea studiilor la Universitatea Tehnică a Moldovei, cu condiții avantajoase.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SPECIALITĂȚI */}
+        <section className="py-20">
+          <div className="max-w-[1400px] mx-auto px-4">
+
+            <div
+                ref={scrollRef}
+                className="flex gap-6 overflow-x-auto snap-x snap-mandatory px-4 md:px-0"
+            >
+              {specialitati.map((s, i) => (
+                  <div
+                      key={i}
+                      className="min-w-[280px] md:min-w-[320px] snap-center bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-all flex-shrink-0 overflow-hidden"
+                  >
+
+                    {/* IMAGINE */}
+                      <div className="relative h-40 w-full">
+                        <Image
+                            src={s.image || '/images/default.jpg'}
+                            alt={s.title}
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+
+                    {/* CONTENT */}
+                    <div className="p-5">
+                      <h3 className="font-bold mb-2 leading-tight whitespace-pre-line">
+                        {s.title}
+                      </h3>
+
+                      <p className="text-sm mb-3 text-gray-500">
+                        {s.desc}
+                      </p>
+
+                      <Link href={s.href} className="text-blue-600 text-sm font-semibold">
+                        Vezi detalii →
+                      </Link>
+                    </div>
+
+                  </div>
+              ))}
+            </div>
+
+
+            {/* SĂGEȚI */}
+            <div className="flex justify-center gap-6 mt-8">
+              <button
+                  onClick={() => scroll('left')}
+                  className="border border-gray-300 text-blue-600 p-3 rounded-full hover:bg-gray-100 transition"
+              >
+                ‹
+              </button>
+
+              <button
+                  onClick={() => scroll('right')}
+                  className="border border-gray-300 text-blue-600 p-3 rounded-full hover:bg-gray-100 transition"
+              >
+                ›
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+        {/* SPONSORI */}
+        <SponsorCarousel />
+
+      </div>
   )
 }
