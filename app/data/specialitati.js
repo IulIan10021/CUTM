@@ -56,7 +56,7 @@ export const specialitati = [
         ],
 
         extra: "Absolvenții pot lucra ca tehnicieni rețele, administratori IT și specialiști suport.",
-        img: "/images/TA.png"
+        img: "/images/RC.png"
     },
     {
         slug: "c",
