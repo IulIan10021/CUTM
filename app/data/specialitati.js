@@ -35,7 +35,7 @@ export const specialitati = [
     },
 
     {
-        slug: "rc",
+        slug: "RC",
         title: "Rețele de calculatoare",
         calificare: "Tehnician în Rețele de calculatoare",
         durata: "4 ani – în baza studiilor gimnaziale",
@@ -56,8 +56,7 @@ export const specialitati = [
         ],
 
         extra: "Absolvenții pot lucra ca tehnicieni rețele, administratori IT și specialiști suport.",
-
-        img: "/images/rc.png"
+        img: "/images/TA.png"
     },
     {
         slug: "c",

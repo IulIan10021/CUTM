@@ -18,10 +18,10 @@ const specialitati = [
     href: '/specialitati/aaw'
   },
   {
-    image: '/images/RC.png',
+    image: '/images/TA.png',
     title: 'Rețele de calculatoare',
     desc: 'Administrare rețele',
-    href: '/specialitati/rc'
+    href: '/specialitati/RC'
   },
   {
     image: '/images/C.png',
